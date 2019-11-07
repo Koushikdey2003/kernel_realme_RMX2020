@@ -561,9 +561,9 @@ static int menu_select(struct cpuidle_driver *drv, struct cpuidle_device *dev,
 		}
 	}
 
-	data->last_state_idx = idx;
+	dev->last_state_idx = idx;
 
-	return data->last_state_idx;
+	return dev->last_state_idx;
 }
 
 /**
@@ -627,7 +627,7 @@ static void menu_update(struct cpuidle_driver *drv, struct cpuidle_device *dev)
 		measured_us = 9 * MAX_INTERESTING / 10;
 	} else {
 		/* measured value */
-		measured_us = dev->last_residency;
+		measured_us = dev->last_residency_ns;
 
 		/* Deduct exit latency */
 		if (measured_us > 2 * target->exit_latency)
