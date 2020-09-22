@@ -38,6 +38,7 @@ struct cpuidle_state_usage {
 	u64			time_ns;
 	unsigned long long	above; /* Number of times it's been too deep */
 	unsigned long long	below; /* Number of times it's been too shallow */
+	unsigned long long	rejected; /* Number of times idle entry was rejected */
 };
 
 struct cpuidle_state {
