@@ -456,12 +456,6 @@ static unsigned int get_next_freq(struct sugov_policy *sg_policy,
 }
 #endif
 
-unsigned long sched_cpu_util(int cpu, unsigned long max)
-{
-	return schedutil_cpu_util(cpu, cpu_util_cfs(cpu_rq(cpu)), max,
-				  ENERGY_UTIL, NULL);
-}
-
 static void sugov_get_util(unsigned long *util, unsigned long *max, int cpu)
 {
 	unsigned long max_cap;
