@@ -63,7 +63,6 @@ static struct mm_qos_request vdec_rg_ctrl_dma;
 void mtk_dec_init_ctx_pm(struct mtk_vcodec_ctx *ctx)
 {
 	ctx->input_driven = 0;
-	ctx->user_lock_hw = 0;
 }
 
 int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
@@ -305,8 +304,6 @@ void mtk_vdec_emi_bw_begin(struct mtk_vcodec_ctx *ctx)
 		break;
 	case V4L2_PIX_FMT_MPEG4:
 	case V4L2_PIX_FMT_H263:
-	case V4L2_PIX_FMT_S263:
-	case V4L2_PIX_FMT_XVID:
 	case V4L2_PIX_FMT_MPEG1:
 	case V4L2_PIX_FMT_MPEG2:
 		emi_bw = emi_bw * mp24_frm_scale[f_type] / (2 * STD_VDEC_FREQ);

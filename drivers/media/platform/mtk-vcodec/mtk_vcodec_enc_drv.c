@@ -88,7 +88,7 @@ static int fops_vcodec_open(struct file *file)
 	src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
 		V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
 	ctx->enc_flush_buf->vb.vb2_buf.vb2_queue = src_vq;
-	ctx->enc_flush_buf->lastframe = EOS;
+	ctx->enc_flush_buf->lastframe = NON_EOS;
 	ctx->enc_flush_buf->vb.vb2_buf.planes[0].bytesused = 1;
 	mtk_vcodec_enc_set_default_params(ctx);
 
@@ -148,8 +148,8 @@ static int fops_vcodec_release(struct file *file)
 
 	mtk_vcodec_enc_empty_queues(file, ctx);
 	mutex_lock(&ctx->worker_lock);
-	mutex_unlock(&ctx->worker_lock);
 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+	mutex_unlock(&ctx->worker_lock);
 	mtk_vcodec_enc_release(ctx);
 	v4l2_fh_del(&ctx->fh);
 	v4l2_fh_exit(&ctx->fh);
@@ -415,6 +415,9 @@ static const struct of_device_id mtk_vcodec_enc_match[] = {
 	{.compatible = "mediatek,mt6885-vcodec-enc",},
 	{.compatible = "mediatek,mt6873-vcodec-enc",},
 	{.compatible = "mediatek,mt6853-vcodec-enc",},
+	{.compatible = "mediatek,mt6833-vcodec-enc",},
+	{.compatible = "mediatek,mt6877-vcodec-enc",},
+	{.compatible = "mediatek,mt6781-vcodec-enc",},
 	{.compatible = "mediatek,venc_gcon",},
 	{},
 };

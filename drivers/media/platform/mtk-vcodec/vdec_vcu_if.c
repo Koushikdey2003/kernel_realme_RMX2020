@@ -233,6 +233,12 @@ int vcu_dec_ipi_handler(void *data, unsigned int len, void *priv)
 		return 1;
 	}
 
+	if (vcu->daemon_pid != current->tgid) {
+		pr_info("%s, vcu->daemon_pid:%d != current %d\n",
+			__func__, vcu->daemon_pid, current->tgid);
+		return 1;
+	}
+
 	vsi = (struct vdec_vsi *)vcu->vsi;
 	mtk_vcodec_debug(vcu, "+ id=%X status = %d\n",
 		msg->msg_id, msg->status);
@@ -251,10 +257,10 @@ int vcu_dec_ipi_handler(void *data, unsigned int len, void *priv)
 		mtk_vcodec_perf_log("irq:%ld",
 			(t_e.tv_sec - t_s.tv_sec) * 1000000 +
 			(t_e.tv_usec - t_s.tv_usec));
-		if (ret == -1 && msg->status == MTK_VDEC_CORE) {
-			/* dump smi when vdec core timeout */
-			smi_debug_bus_hang_detect(0, "VCODEC");
-		}
+		// if (ret == -1 && msg->status == MTK_VDEC_CORE) {
+		// 	/* dump smi when vdec core timeout */
+		// 	smi_debug_bus_hang_detect(0, "VCODEC");
+		// }
 		msg->status = ret;
 		ret = 1;
 	} else if (msg->status == 0) {
